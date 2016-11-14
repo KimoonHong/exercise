@@ -1,12 +1,10 @@
 # exercise
-```
 exercise to make linux server
-```
 ##environment
-ubuntu 16.04
-nginx
-mysql
-php-fpm
+- ubuntu 16.04
+- nginx
+- mysql
+- php-fpm
 ```
 sudo apt-get update
 sudo apt-get install nginx
