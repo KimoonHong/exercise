@@ -2,7 +2,7 @@
 <ul>
 {% for item in items %}
   <li{% if loop.first %} class="first"{% endif %}>
-    <p><a href="/schedule">{{ item.jmFldNm }} : {{ item.jmCd }}</a></p>
+    <p><a href="/schedule?num={{ item.jmCd }}">{{ item.jmFldNm }} : {{ item.jmCd }}</a></p>
   </li>
 {% endfor %}
 </ul>
