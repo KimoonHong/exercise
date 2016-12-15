@@ -1,2 +1,11 @@
 <h1>{{ title }}</h1>
-<p>{{result}}</p>
+<ul>
+{% for item in items %}
+  <li{% if loop.first %} class="first"{% endif %}>
+    <p>{{ item.implPlanNm }} {{ item.jmFldNm }}</p>
+    <p>필기시험시작일자 : {{ item.docExamStartDt }}</p>
+    <p>필기시험종료일자 : {{ item.docExamEndDt }}</p>
+    <p>합격발표일자 : {{ item.docPassDt }}</p>
+  </li>
+{% endfor %}
+</ul>
