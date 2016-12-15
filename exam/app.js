@@ -10,16 +10,47 @@ app.set('view engine', 'html')
 app.set('views', __dirname + '/views')
 
 var serviceKey = 'pJ8GHWTN%2FeC3CGvGnmPNF0sFTQNI9lDAMJVSNQfFP0TNPSPJ4N2SAt0ikJ7wrU8tvczytue30CMWF3c2D6LWZg%3D%3D';
-var queryParams = '?' + encodeURIComponent('ServiceKey') + '=' + serviceKey; /* Service Key*/
-var url = 'http://openapi.q-net.or.kr/api/service/rest/InquiryTestInformationNTQSVC/getPEList' + queryParams;
+var queryParams = encodeURIComponent('ServiceKey') + '=' + serviceKey; /* Service Key*/
+
+
+var jmListUrl = 'http://openapi.q-net.or.kr/api/service/rest/InquiryTestInformationNTQSVC/getJMList?jmCd=0752&' + queryParams; //기술사 종목별 시험 일정
+var feeUrl = 'http://openapi.q-net.or.kr/api/service/rest/InquiryTestInformationNTQSVC/getFeeList?jmCd=0752&' + queryParams; //기술사 종목별 응시료
+var listUrl = 'http://openapi.q-net.or.kr/api/service/rest/InquiryListNationalQualifcationSVC/getList?' + queryParams; //국가자격 종목 목록 정보
+
 var parser = new xml2js.Parser();
-request(url, function(error, response, body) {
+
+request(listUrl, function(error, response, body) {
         parser.parseString(body, function(err,result){
-        	console.log(JSON.stringify(result));
+		var items = result.response.body[0].items[0].item;
+		
+		console.log(items.length);
+/*        	for(var i=0 ; i < items.length ; i++){
+			console.log(items[i].jmFldNm[0]);
+		}
+*/		
+		app.get('/examList', function(req, res){
+			res.render('examList', {
+    				title: '시험 목록',
+				items: items,
+				total: items.length
+  			})
+		})
+	});
+});
+
+request(jmListUrl, function(error, response, body) {
+        parser.parseString(body, function(err,result){
+		var items = result.response.body[0].items[0].item;
+		
+		console.log(items.length);
+/*        	for(var i=0 ; i < items.length ; i++){
+			console.log(items[i].jmFldNm[0]);
+		}
+*/		
 		app.get('/schedule', function(req, res){
 			res.render('schedule', {
-    				title: '강의 일정',
-    				result: JSON.stringify(result)
+    				title: '시험 정보',
+				items: items,
   			})
 		})
 	});
